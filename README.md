@@ -166,12 +166,64 @@
       <xsl:template match="/">
       ```
 
-13. 
+13. XMLHttpRequest
+    
+    ```javascript
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+           // Typical action to be performed when the document is ready:
+           document.getElementById("demo").innerHTML = xhttp.responseText;
+        }
+    };
+    xhttp.open("GET", "filename", true);
+    xhttp.send();
+    ```
 
-14. 
+14. XML Parser 
+    
+    - Parse String to XML
+    
+    ```html
+    <html>
+        <body>
+            <p id="demo"></p>
+    
+            <script>
+            var parser, xmlDoc;
+            var text = "<bookstore><book>" +
+                        "<title>Everyday Italian</title>" +
+                        "<author>Giada De Laurentiis</author>" +
+                        "<year>2005</year>" +
+                        "</book></bookstore>";
+                parser = new DOMParser();
+                xmlDoc = parser.parseFromString(text,"text/xml");
+    
+                document.getElementById("demo").innerHTML =
+                xmlDoc.getElementsByTagName("year")[0]
+                      .childNodes[0]
+                      .nodeValue;
+            </script>
+        </body>
+    </html>
+    ```
+    
+    - Parse XML to String: request file [cd_catalog.xml](https://www.w3schools.com/xml/cd_catalog.xml)
+    
+    ```js
+    var xmlDoc = xmlhttp.responseXML;
+    var txt = "";
+    var x = xmlDoc.getElementsByTagName("ARTIST");
+    for (i = 0; i < x.length; i++) {
+        txt += x[i].childNodes[0].nodeValue + "<br>";
+    }
+    document.getElementById("demo").innerHTML = txt;
+    ```
 
+15. XML DOM ([Document Object Model](https://www.w3schools.com/xml/dom_intro.asp))
 
+16. 
 
+17. 
 
-
- 
+18. 
