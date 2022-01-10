@@ -277,58 +277,63 @@
         - `book`, `title` are descendants of `bookstore`
     
     . Syntax:
-      
-      | Expression | Description                                             |
-      | ---------- | ------------------------------------------------------- |
-      | node_name  | select all node with the name is "*node_name*"          |
-      | /          | select from root                                        |
-      | //         | select nodes in current context from top down, in depth |
-      | .          | select current node                                     |
-      | ..         | selects the parent of the current node                  |
-      | @          | select attributes                                       |
-      | book[1]    | select the first book                                   |
-      
+    
+    | Expression   | Description                                          |
+    | ------------ | ---------------------------------------------------- |
+    | node_name    | select all node with the name is "*node_name*"       |
+    | /            | select from root                                     |
+    | //           | select nodes in current context in depth to top down |
+    | .            | select current node                                  |
+    | ..           | selects the parent of the current node               |
+    | @            | select attributes                                    |
+    | book[1]      | select the first book, in depth to top down          |
+    | book[last()] | select the last book, in depth to top down           |
+    |              |                                                      |
+    |              |                                                      |
+    |              |                                                      |
+    |              |                                                      |
+    
       Example:
-      
-      ```html
-      <html>
-      <head>
-      	<meta charset="utf-8">
-      </head>
-      
-      <body lang="en-us" dir="ltr">
-      	<div id="a">
-      		<a class="abc1" tabindex="-1">Skip to main content</a>
-      		<div hidden="" id="a1">
-                  <a class="abc2"></a>
-                  <a class="abc3"></a>
-              </div>
-              <div id="a2"></div>
-              <section id="sec1">
-                  <a class="abc3"></a>
-              </section>
-          </div> 
-          <div id="b">
-              <div id="b1"></div>
-              <div id="b2"></div>
-          </div>
-      </body>
-      </html>               
-      ```
-      
-      | Expression    | Description                                                              |
-      | ------------- | ------------------------------------------------------------------------ |
-      | div           | everything include element, attribute, atomic value with name is "*div*" |
-      | /html         | select from /html                                                        |
-      | //div         | select all <div> with order id="a" -> "a1" -> "b"                        |
-      | //div/a       | select all <a> with parent <div>                                         |
-      | //div//a      | select all <a> with ascentors <div>                                      |
-      | //a/@tabindex | select all <a> with attribute `tabindex`                                 |
-      | /.            | = /html                                                                  |
-      | //div[1]      | the first <div> in any element, id="a" -> "a1" -> "b1"                   |
-      |               |                                                                          |
-      
-      
+    
+    ```html
+    <html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    
+    <body lang="en-us" dir="ltr">
+        <div id="a">
+            <a class="abc1" tabindex="-1">Skip to main content</a>
+            <div hidden="" id="a1">
+                <a class="abc2"></a>
+                <a class="abc3"></a>
+            </div>
+            <div id="a2"></div>
+            <section id="sec1">
+                <a class="abc3"></a>
+            </section>
+        </div> 
+        <div id="b">
+            <div id="b1"></div>
+            <div id="b2"></div>
+        </div>
+    </body>
+    </html>               
+    ```
+    
+    | Expression    | Description                                                                                                                                                             |
+    | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | div           | everything include element, attribute, atomic value with name is "*div*"                                                                                                |
+    | /html         | select from /html                                                                                                                                                       |
+    | //div         | select all <div> with order id=`a` ->`a1`->`a2`->`b`->`b1`->`b2`                                                                                                        |
+    | //div/a       | select all <a> with parent <div>                                                                                                                                        |
+    | //div//a      | select all <a> with ascentors <div>                                                                                                                                     |
+    | //a/@tabindex | select all <a> with attribute `tabindex`                                                                                                                                |
+    | /.            | = /html doc                                                                                                                                                             |
+    | //div[1]      | the first <div> in any element, id="a" -> "a1" -> "b1"                                                                                                                  |
+    | //div[2]      | - check <div> ancestor that contain the number of children <div> tags >= 2<br/>- select the 2nd children <div> tag in that <div> tag<br/>- Ex: <div> id=`a2`->`b`->`b2` |
+    |               |                                                                                                                                                                         |
+    |               |                                                                                                                                                                         |
 
 17. XML DTD
     
