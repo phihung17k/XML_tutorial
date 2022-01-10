@@ -222,8 +222,122 @@
 
 15. XML DOM ([Document Object Model](https://www.w3schools.com/xml/dom_intro.asp))
 
-16. 
+16. XPath
+    
+    - There are 7 kinds of node: element, attribute, text, namespace, processing-instruction, comment, and document nodes
+      
+      ```xml
+      <?xml version="1.0" encoding="UTF-8"?>
+      <bookstore>
+        <book>
+          <title lang="en">Harry Potter</title>
+          <author>J K. Rowling</author>
+          <year>2005</year>
+          <price>29.99</price>
+        </book>
+      </bookstore>
+      ```
+      
+      - `<bookstore>` : root element node
+      
+      - `<year>2005</year>` : element node
+      
+      - `lang="en"` : attribute node
+    
+    - Atomic values: are nodes with no children or parent
+      
+      > J K. Rowling
+      > 
+      > "en"
+    
+    - Items: are atomic values or nodes
+    
+    - Relationship of nodes: 
+      
+      - Parent: each element and attribute has one parent
+        
+        - `book` is parent of `title`, `author`
+        
+        - `title` is parent of `lang`
+      
+      - Children: element may have zero, one or more children
+        
+        - `title`, `author` are children of `book`
+      
+      - Siblings: the same parent
+        
+        - `title` and `author` is siblings
+      
+      - Ancestors: parent, parent's parent, etc
+        
+        - `bookstore`, `book` are ancestors of `title` 
+      
+      - Descendants: children, children's children, etc
+        
+        - `book`, `title` are descendants of `bookstore`
+    
+    . Syntax:
+      
+      | Expression | Description                                             |
+      | ---------- | ------------------------------------------------------- |
+      | node_name  | select all node with the name is "*node_name*"          |
+      | /          | select from root                                        |
+      | //         | select nodes in current context from top down, in depth |
+      | .          | select current node                                     |
+      | ..         | selects the parent of the current node                  |
+      | @          | select attributes                                       |
+      | book[1]    | select the first book                                   |
+      
+      Example:
+      
+      ```html
+      <html>
+      <head>
+      	<meta charset="utf-8">
+      </head>
+      
+      <body lang="en-us" dir="ltr">
+      	<div id="a">
+      		<a class="abc1" tabindex="-1">Skip to main content</a>
+      		<div hidden="" id="a1">
+                  <a class="abc2"></a>
+                  <a class="abc3"></a>
+              </div>
+              <div id="a2"></div>
+              <section id="sec1">
+                  <a class="abc3"></a>
+              </section>
+          </div> 
+          <div id="b">
+              <div id="b1"></div>
+              <div id="b2"></div>
+          </div>
+      </body>
+      </html>               
+      ```
+      
+      | Expression    | Description                                                              |
+      | ------------- | ------------------------------------------------------------------------ |
+      | div           | everything include element, attribute, atomic value with name is "*div*" |
+      | /html         | select from /html                                                        |
+      | //div         | select all <div> with order id="a" -> "a1" -> "b"                        |
+      | //div/a       | select all <a> with parent <div>                                         |
+      | //div//a      | select all <a> with ascentors <div>                                      |
+      | //a/@tabindex | select all <a> with attribute `tabindex`                                 |
+      | /.            | = /html                                                                  |
+      | //div[1]      | the first <div> in any element, id="a" -> "a1" -> "b1"                   |
+      |               |                                                                          |
+      
+      
 
-17. 
+17. XML DTD
+    
+    - ```xml
+      <!DOCTYPE dtd_name[
+        <!ELEMENT element-name (element-content type)>  
+      ]>
+      ```
+    
+    - 
 
 18. 
