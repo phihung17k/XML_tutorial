@@ -278,20 +278,26 @@
     
     . Syntax:
     
-    | Expression   | Description                                          |
-    | ------------ | ---------------------------------------------------- |
-    | node_name    | select all node with the name is "*node_name*"       |
-    | /            | select from root                                     |
-    | //           | select nodes in current context in depth to top down |
-    | .            | select current node                                  |
-    | ..           | selects the parent of the current node               |
-    | @            | select attributes                                    |
-    | book[1]      | select the first book, in depth to top down          |
-    | book[last()] | select the last book, in depth to top down           |
-    |              |                                                      |
-    |              |                                                      |
-    |              |                                                      |
-    |              |                                                      |
+    | Expression                 | Description                                                                      |
+    | -------------------------- | -------------------------------------------------------------------------------- |
+    | node_name                  | select all node with the name is "*node_name*"                                   |
+    | /                          | select from root                                                                 |
+    | //                         | select nodes in current context in depth to top down                             |
+    | .                          | select current node                                                              |
+    | ..                         | selects the parent of the current node                                           |
+    | @                          | select attributes                                                                |
+    | book[1]                    | select the first book, in depth to top down                                      |
+    | book[last()]               | select the last book, in depth to top down                                       |
+    | book[position()<3]         | select the 1st and 2nd book                                                      |
+    | title[@lang]               | select all title that have `lang` attribute                                      |
+    | title[@lang='en']          | select all title that have `lang="en"` attribute                                 |
+    | book[price>35.00]          | select all book that price > 35.00                                               |
+    | *                          | match any element node                                                           |
+    | @*                         | match any attribute node                                                         |
+    | node()                     | match any node                                                                   |
+    | //book/title\|//book/price | selects all the title AND price elements of all book elements                    |
+    | //title \| //price         | Selects all the title AND price elements in the document                         |
+    | //book/title \| //price    | Selects all the <title> of the <book> AND all the price elements in the document |
     
       Example:
     
@@ -311,6 +317,8 @@
             <div id="a2"></div>
             <section id="sec1">
                 <a class="abc3"></a>
+                <div id="secdiv1"></div>
+                <div id="secdiv2"></div>
             </section>
         </div> 
         <div id="b">
@@ -321,19 +329,22 @@
     </html>               
     ```
     
-    | Expression    | Description                                                                                                                                                             |
-    | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    | div           | everything include element, attribute, atomic value with name is "*div*"                                                                                                |
-    | /html         | select from /html                                                                                                                                                       |
-    | //div         | select all <div> with order id=`a` ->`a1`->`a2`->`b`->`b1`->`b2`                                                                                                        |
-    | //div/a       | select all <a> with parent <div>                                                                                                                                        |
-    | //div//a      | select all <a> with ascentors <div>                                                                                                                                     |
-    | //a/@tabindex | select all <a> with attribute `tabindex`                                                                                                                                |
-    | /.            | = /html doc                                                                                                                                                             |
-    | //div[1]      | the first <div> in any element, id="a" -> "a1" -> "b1"                                                                                                                  |
-    | //div[2]      | - check <div> ancestor that contain the number of children <div> tags >= 2<br/>- select the 2nd children <div> tag in that <div> tag<br/>- Ex: <div> id=`a2`->`b`->`b2` |
-    |               |                                                                                                                                                                         |
-    |               |                                                                                                                                                                         |
+    | Expression          | Description                                                                                                                                                                      |
+    | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | div                 | everything include element, attribute, atomic value with name is "*div*"                                                                                                         |
+    | /html               | select from /html                                                                                                                                                                |
+    | //div               | select all <div> with order id=`a` ->`a1`->`a2`->...->`b1`->`b2`                                                                                                                 |
+    | //div/a             | select all <a> with parent <div>                                                                                                                                                 |
+    | //div//a            | select all <a> with ascentors <div>                                                                                                                                              |
+    | //a/@tabindex       | select all element from <a> in depth with attribute `tabindex`                                                                                                                   |
+    | /.                  | = /html doc                                                                                                                                                                      |
+    | //div[1]            | the first <div> in any element, id=`a` -> `a1` -> "b1"                                                                                                                           |
+    | //div[2]            | - check any elements that contain the number of children <div> tags >= 2<br/>- select the 2nd children <div> tag in that <div> tag<br/>- Ex: <div> id=`a2`->`secdiv2`->`b`->`b2` |
+    | //div[position()<2] | - select the 1st <div> tag<br/>- The same //div[1]                                                                                                                               |
+    | //a[@tabindex]      | select all <a> with attribute `tabindex`                                                                                                                                         |
+    | /*                  | = /html                                                                                                                                                                          |
+    | //*                 | select all element                                                                                                                                                               |
+    | //a[@*]             | select all <a> which have at least 1 attribute                                                                                                                                   |
 
 17. XML DTD
     
