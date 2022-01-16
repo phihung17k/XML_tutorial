@@ -484,12 +484,36 @@
       
       Divided 5 type:
       
-      | Type                               | Description                                                                                                                                                                                                                                                                                           |
-      | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-      | Internal Parsed General Entity     | declare in XML or DTD file, to reference value to XML<br/>Syntax: `<!ENTITY entity_name "value">`<br/>in XML: `&entity_name;`                                                                                                                                                                         |
-      | External Parsed General Entities   | read from other DTD<br/>Syntax: `<!ENTITY entity_name SYSTEM\|PUBLIC "uri">`<br/>in XML: `&entity_name;`                                                                                                                                                                                              |
-      | External Unparsed General Entities | reference MIME or binary data type<br/>Syntax: `<!ENTITY entity_name SYSTEM\|PUBLIC "uri" NDATA reference_name>`                                                                                                                                                                                      |
-      | Internal Parsed Parameter Entities | - declare a **string**<br/>- use for **attribute type or content model**<br/>- reuse in DTD file<br/>Syntax: `<!Entity % entity_name "value">`<br/>for attribute: <br/><!Entity % entity_name "<br/>          attr_name_1 attr_type constraint <br/>          attr_name_2 attr_type constraint"<br/>> |
-      | External Parsed Parameter Entities |                                                                                                                                                                                                                                                                                                       |
+      | Type                               | Description                                                                                                                                                                                                                                                                                                                                                                |
+      | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+      | Internal Parsed General Entity     | declare in XML or DTD file, to reference value to XML<br/>Syntax: `<!ENTITY entity_name "value">`<br/>in XML: `&entity_name;`                                                                                                                                                                                                                                              |
+      | External Parsed General Entities   | read from other DTD<br/>Syntax: `<!ENTITY entity_name SYSTEM\|PUBLIC "uri">`<br/>in XML: `&entity_name;`                                                                                                                                                                                                                                                                   |
+      | External Unparsed General Entities | reference MIME or binary data type<br/>Syntax: `<!ENTITY entity_name SYSTEM\|PUBLIC "uri" NDATA reference_name>`                                                                                                                                                                                                                                                           |
+      | Internal Parsed Parameter Entities | - declare a **string**<br/>- use for **attribute type or content model**<br/>- reuse in DTD file<br/>Syntax: `<!Entity % entity_name "value">`<br/>in DTD: `%entity_name;`<br/>for attribute: <br/><!Entity % entity_name "<br/>          attr_name_1 attr_type constraint <br/>          attr_name_2 attr_type constraint"<br/>><br/>`<!ATTLIST attr_name %entity_name;>` |
+      | External Parsed Parameter Entities | reference from other DTD<br/>Syntax: `<!Entity % entity_name SYSTEM\|PUBLIC "uri">`<br/>in DTD: `%entity_name;`                                                                                                                                                                                                                                                            |
+      
+      Example:
+      
+      ```xml
+      <!ENTITY abc "abc">
+      <book id="&abc;">
+      
+      
+      <!ENTITY % common_attr 
+          'id     ID     #REQUIRED
+          account CDATA  #IMPLIED'
+      >
+      <!ATTLIST item %common_attr;>
+      
+      
+      <!ENTITY % old SYSTEM "combine.dtd">
+      %old;
+      ```
 
-18. 
+18. XML Schema
+
+19. 
+
+20. 
+
+21. 
