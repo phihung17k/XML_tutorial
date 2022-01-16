@@ -348,12 +348,148 @@
 
 17. XML DTD
     
+    **Internal DTD**:
+    
     - ```xml
+      <?xml version="1.0" encoding="UTF-8"?>
       <!DOCTYPE dtd_name[
-        <!ELEMENT element-name (element-content type)>  
+          <!ELEMENT element-name (content_model type)>
+          <!ALLLIST element-name attr-name attr-type constraint>
+          <!ENTITY entity-name "entity-value">
       ]>
       ```
     
-    - 
+    **External DTD**:
+    
+    - Reference in file xml:
+      
+      ```xml
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE root_name SYSTEM "file/uri">
+      
+      <!--Example-->
+      <!DOCTYPE bookstore SYSTEM "book.dtd">
+      ```
+      
+      - root_name: the name of root element in xml file
+      
+      - SYSTEM: indicate the DTD file is private
+      
+      - file/uri: location of file dtd
+    
+    - In file dtd:
+      
+      ```xml
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!ELEMENT element-name (content_model type)>
+      <!ATTLIST element-name attr-name attr-type default-value>
+      <!ENTITY entity-name "entity-value">
+      ```
+    
+    - Declare element:
+      
+      ```xml
+      <!ELEMENT element-name [content_model]>
+      <!ELEMENT element-name (element-child-1, element-child-2, ...)>
+      <!--nested/mixed element-->
+      <!ELEMENT element-name (#PCDATA | element-child-1 | ...)*>
+      ```
+      
+      - content_model: 
+        
+        - `(#PCDATA)`: content of element contains characters, string
+        
+        - `EMPTY`:  empty tag
+        
+        - `ANY`: content of element contains characters or element-child 
+      
+      - element-child: append characters
+        
+        - `?`:  appear 0 or 1 time
+        
+        - `+`: appear at least 1 time
+        
+        - `*`: appear at least 0 time 
+        
+        - nothing: default appear 1
+        
+        - element-child-1, element-child-2: order of appearance 1, 2
+        
+        - element-child-1 | element-child-2:  appear child-1 or child-2
+        
+        - `()`: group
+        
+        - `(#PCDATA | child-1 | child-2 | ...)*`: mixed content
+      
+      ```xml
+      <!--Example-->
+      <!ELEMENT book (name+, price*)>
+      <!ELEMENT name (#PCDATA)>
+      <!ELEMENT price (#PCDATA)>
+      <!--specially mix content-->
+      <!ELEMENT book (#PCDATA | name)*>
+      <!--result-->
+      <book>this is mixed content
+          <name>ABC</name>
+      <book>
+      ```
+    
+    - Define attribute:
+      
+      ```xml
+      <!ATTLIST element-name attr-name attr-type constraint>
+      <!ATTLIST element-name attr-name-1 attr-type-1 contraint-1
+                             attr-name-2 attr-type-2 contraint-2>
+      ```
+      
+      - attr-type:
+        
+        | attribute-type   | description                                                     |
+        | ---------------- | --------------------------------------------------------------- |
+        | CDATA            | character                                                       |
+        | NMTOKEN          | value is valid like a element tag, may start with a **digit**   |
+        | NMTOKENS         | a set of one or more NMTOKEN, separated by **white-space**      |
+        | ID               | unique id                                                       |
+        | IDREF            | reference other id                                              |
+        | IDREFS           | a set of one or more IDREF, separated by **white-space**        |
+        | ENTITY           | the name of entity                                              |
+        | ENTITIES         | a set of one or more ENTITIE, separated by **white-space**      |
+        | NOTATION         | reference to a file, a directory or a path, MIME or binary type |
+        | (eval\|eval\|..) | enumeration                                                     |
+      
+      - constraint: 
+        
+        | constraint     | description                                |
+        | -------------- | ------------------------------------------ |
+        | #REQUIRED      | require attribute, may empty               |
+        | #IMPLIED       | can appear or not                          |
+        | #FIXED “value” | must assign = "value"                      |
+        | "value"        | default "value" if attribute cannot appear |
+      
+      ```xml
+      <!--Example-->
+      <!ELEMENT person EMPTY>
+      <!ATTLIST person name CDATA #REQUIRED>
+      <!ATTLIST person gender (M|F) "M"
+                       age NMTOKEN #IMPLIED> 
+      ```
+    
+    - Define entity:
+      
+      All entity must be defined before using
+      
+      - Only use in DTD file to declare: **parameter entity**
+      
+      - Reference to XML: **general entity**
+      
+      Divided 5 type:
+      
+      | Type                               | Description                                                                                                                                                                                                                                                                |
+      | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+      | Internal Parsed General Entity     | declare in XML or DTD file, to reference value to XML<br/>Syntax: `<!ENTITY entity_name "value">`<br/>in XML: `&entity_name;`                                                                                                                                              |
+      | External Parsed General Entities   | read from other DTD<br/>Syntax: `<!ENTITY entity_name SYSTEM\|PUBLIC "uri">`<br/>in XML: `&entity_name;`                                                                                                                                                                   |
+      | External Unparsed General Entities | reference MIME or binary data type<br/>Syntax: `<!ENTITY entity_name SYSTEM\|PUBLIC "uri" NDATA reference_name>`                                                                                                                                                           |
+      | Internal Parsed Parameter Entities | - declare a **string**<br/>- use for **attribute type or content model**<br/>- reuse in DTD file<br/>Syntax: `<!Entity % entity_name "value">`<br/>for attribute: `<!Entity % entity_name "<br/>attr_name_1 attr_type constraint<br/>attr_name_2 attr_type_2 constraint">` |
+      | External Parsed Parameter Entities |                                                                                                                                                                                                                                                                            |
 
 18. 
