@@ -497,20 +497,131 @@
       ```xml
       <!ENTITY abc "abc">
       <book id="&abc;">
-      
-      
+      ```
+
       <!ENTITY % common_attr 
           'id     ID     #REQUIRED
           account CDATA  #IMPLIED'
       >
       <!ATTLIST item %common_attr;>
-      
-      
+    
+    
       <!ENTITY % old SYSTEM "combine.dtd">
       %old;
       ```
 
 18. XML Schema
+    
+    XML Schema Language is XML Schema Definition (XSD)
+    
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                targetNamespace="http://xml.netbeans.org/schema/mail"
+                xmlns="http://xml.netbeans.org/schema/mail"
+                elementFormDefault="qualified">
+        <xsd:element/>
+    </xsd:schema>
+    ```
+    
+    - `<[prefix]:schema xmlns:[prefix]=(http://www.w3.org/2001/XMLSchema)">`: element  root `schema` for XML Schema
+    
+    - Elements and data type are validated at [(http://www.w3.org/2001/XMLSchema)](http://www.w3.org/2001/XMLSchema)
+    
+    - All element and data type must start with `[prefix]` in `xmlns:[prefix]` (xsd)
+    
+    - `targetNamespace="uri"`: define uri namespace for reusing in other doc. It is similar defining package in class in java. **[Optional]**
+    
+    - ``xmlns="uri"`: default namespace. **[Optional]**
+    
+    - `elementFormDefault="qualified"`: apply XML, must define **prefix** before element tag. Example `<xsd:book name="abc"/>`
+    
+    In XML file:
+    
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <mail xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://xml.netbeans.org/schema/mail"
+        xsi:schemaLocation="http://xml.netbeans.org/schema/mail mail.xsd">
+        <to>abc</to>
+    </mail>
+    
+    <!--Example: other-->
+    <mail xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="mail.xsd">
+    </mail>
+    ```
+    
+    - `xsi:schemaLocation="namespace_uri instance"`: define namespace of the validated schema, specified instance. Here is **mail.xsd**. Include name of namespace and location of schema file (mail.xsd)
+    
+    ###### Declare in Schema:
+    
+    - Element: 
+      
+      ```xml
+      <xs:element name="element_name"
+                  type="data_type"
+                  minOccurs="minimum_appear"
+                  maxOccurs="maximum_appear"
+                  default|fixed="value">
+      </xs:element>
+      ```
+      
+      - | minOccurs   | maxOccurs   | number of times an element
+can occur |
+        | ----------- | ----------- | ------------------------------------ |
+        | 0           | 1           | 0 or 1                               |
+        | 3           | 3           | 3                                    |
+        | 0           | unbounded   | 0 -> infinity                        |
+        | 1           | unbounded   | 1 -> infinity                        |
+        | n           | unbounded   | at least n times                     |
+        | > maxOccurs | ...         | Error                                |
+        | ...         | < minOccurs | Error                                |
+      
+      [![image alt text](http://img.tobebetter.info/khanhkt/XML/XML_Schema_files/image003.jpg)]
+      
+      Declare element by ways:
+      
+      - **Simple type**: only contains text, no attribute
+        
+        - User-Derived: avaiable in schema
+          
+          - atomic: int, long, double, ...
+          
+          - non-atomic: contains more 1 value such as Array, Collection
+        
+        - Build-in:
+          
+          - Primitive: basic data type: int, long, float, double, ...
+          
+          - Derived: extension or restriction from primitive
+      
+      - **Complex type**: 
+        
+        - Empty: **no body**, may be have **attribute**
+        
+        - Simple Content: **body** is text, **type** is extension or restriction from the avaiable data type
+        
+        - Complex Content: **body** can be text, element, ... and contains **attribute**
+      
+      Detail of Type:
+      
+      - Simple Type:
+        
+        ```xml
+        <xsd:element name="element_name" type="data_type"/>
+        <xsd:element ref="reference_element_name"/>
+        
+        <xsd:element name="element_name" 
+                     type="data_type" 
+                     default|fixed="value"/>
+        <!--nillable: allow null or not-->
+        <xsd:element name="element_name" 
+                     type="data_type" 
+                     nillable="true|false"/>
+        ```
+        
+        
 
 19. 
 
