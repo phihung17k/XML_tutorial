@@ -497,20 +497,8 @@
       ```xml
       <!ENTITY abc "abc">
       <book id="&abc;">
+      
       ```
-      
-      <!ENTITY % common_attr 
-          'id     ID     #REQUIRED
-          account CDATA  #IMPLIED'
-      >
-      
-      <!ATTLIST item %common_attr;>
-
-```xml
-  <!ENTITY % old SYSTEM "combine.dtd">
-  %old;
-  ```
-```
 
 18. XML Schema
     
