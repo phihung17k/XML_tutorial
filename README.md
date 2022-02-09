@@ -498,14 +498,14 @@
       <!ENTITY abc "abc">
       <book id="&abc;">
       ```
-
+      
       <!ENTITY % common_attr 
           'id     ID     #REQUIRED
           account CDATA  #IMPLIED'
       >
+      
       <!ATTLIST item %common_attr;>
-    
-    
+
       <!ENTITY % old SYSTEM "combine.dtd">
       %old;
       ```
@@ -567,16 +567,15 @@
       </xs:element>
       ```
       
-      - | minOccurs   | maxOccurs   | number of times an element
-can occur |
-        | ----------- | ----------- | ------------------------------------ |
-        | 0           | 1           | 0 or 1                               |
-        | 3           | 3           | 3                                    |
-        | 0           | unbounded   | 0 -> infinity                        |
-        | 1           | unbounded   | 1 -> infinity                        |
-        | n           | unbounded   | at least n times                     |
-        | > maxOccurs | ...         | Error                                |
-        | ...         | < minOccurs | Error                                |
+      - | minOccurs   | maxOccurs   | number of times element can occur |
+        | ----------- | ----------- | --------------------------------- |
+        | 0           | 1           | 0 or 1                            |
+        | 3           | 3           | 3                                 |
+        | 0           | unbounded   | 0 -> infinity                     |
+        | 1           | unbounded   | 1 -> infinity                     |
+        | n           | unbounded   | at least n times                  |
+        | > maxOccurs | ...         | Error                             |
+        | ...         | < minOccurs | Error                             |
       
       [![image alt text](http://img.tobebetter.info/khanhkt/XML/XML_Schema_files/image003.jpg)]
       
@@ -615,13 +614,11 @@ can occur |
         <xsd:element name="element_name" 
                      type="data_type" 
                      default|fixed="value"/>
-        <!--nillable: allow null or not-->
+        <!--nillable: allow value null or not-->
         <xsd:element name="element_name" 
                      type="data_type" 
                      nillable="true|false"/>
         ```
-        
-        
 
 19. 
 
