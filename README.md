@@ -506,9 +506,11 @@
       
       <!ATTLIST item %common_attr;>
 
-      <!ENTITY % old SYSTEM "combine.dtd">
-      %old;
-      ```
+```xml
+  <!ENTITY % old SYSTEM "combine.dtd">
+  %old;
+  ```
+```
 
 18. XML Schema
     
